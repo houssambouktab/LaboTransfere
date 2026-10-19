@@ -18,6 +18,7 @@ Route::middleware('auth')->group(function () {
 
    // Route::get('/users', [UserController::class, 'listusers'])->name('users.list');
 
+   Route::middleware('role:admin')->group(function () {
     Route::middleware('role:admin')->prefix('rapports')->name('rapports.')->group(function () {
         Route::get('/', [RapportsController::class, 'index'])->name('index');
         Route::get('/creer', [RapportsController::class, 'create'])->name('create');
@@ -25,17 +26,17 @@ Route::middleware('auth')->group(function () {
         Route::post('/store', [RapportsController::class, 'store'])->name('store');
     });
 
-    Route::middleware('role:admin,patient')->prefix('patients')->name('patients.')->group(function () {
         Route::get('/', [PatientsController::class, 'index'])->name('index');
-        Route::get('/dashboard', [PatientsController::class, 'index'])->name('patients');
         Route::get('/creer', [PatientsController::class, 'create'])->name('create');
         Route::post('/store', [PatientsController::class, 'store'])->name('store');
+        Route::get('/{id}', [PatientsController::class, 'delete'])->whereNumber('id')->name('delete');
     });
 
     Route::middleware('role:admin')->prefix('medecins')->name('medecins.')->group(function () {
         Route::get('/', [DoctorsController::class, 'index'])->name('index');
         Route::get('/creer', [DoctorsController::class, 'create'])->name('create');
         Route::post('/store', [DoctorsController::class, 'store'])->name('store');
+        Route::post('/{id}', [DoctorsController::class, 'delete'])->name('delete');
     });
 
     Route::middleware('role:patient')->prefix('patients')->name('patients.')->group(function () {
@@ -48,5 +49,4 @@ Route::middleware('auth')->group(function () {
 
     
 });
-
 

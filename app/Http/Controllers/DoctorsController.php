@@ -28,6 +28,16 @@ class DoctorsController extends Controller
         ]);
     }
 
+    public function dashboard()
+    {
+        $user = Auth::user();
+
+        return view('medecins.dashboard', [
+            'name' => $user->name,
+            'Role' => $user->role,
+        ]);
+    }
+
     public function create()
     {
         $user = Auth::user();
