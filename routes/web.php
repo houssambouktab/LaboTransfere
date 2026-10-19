@@ -25,13 +25,15 @@ Route::middleware('auth')->group(function () {
         Route::post('/store', [RapportsController::class, 'store'])->name('store');
     });
 
-    Route::prefix('patients')->name('patients.')->group(function () {
+    Route::middleware('role:admin,patient')->prefix('patients')->name('patients.')->group(function () {
+        Route::get('/', [PatientsController::class, 'index'])->name('index');
         Route::get('/dashboard', [PatientsController::class, 'index'])->name('patients');
         Route::get('/creer', [PatientsController::class, 'create'])->name('create');
         Route::post('/store', [PatientsController::class, 'store'])->name('store');
     });
 
-    Route::prefix('medecins')->name('medecins.')->group(function () {
+    Route::middleware('role:admin,doctor')->prefix('medecins')->name('medecins.')->group(function () {
+        Route::get('/', [DoctorsController::class, 'index'])->name('index');
         Route::get('/dashboard', [DoctorsController::class, 'index'])->name('doctors');
         Route::get('/creer', [DoctorsController::class, 'create'])->name('create');
         Route::post('/store', [DoctorsController::class, 'store'])->name('store');
