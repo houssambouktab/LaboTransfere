@@ -32,12 +32,21 @@ Route::middleware('auth')->group(function () {
         Route::post('/store', [PatientsController::class, 'store'])->name('store');
     });
 
-    Route::middleware('role:admin,doctor')->prefix('medecins')->name('medecins.')->group(function () {
+    Route::middleware('role:admin')->prefix('medecins')->name('medecins.')->group(function () {
         Route::get('/', [DoctorsController::class, 'index'])->name('index');
-        Route::get('/dashboard', [DoctorsController::class, 'index'])->name('doctors');
         Route::get('/creer', [DoctorsController::class, 'create'])->name('create');
         Route::post('/store', [DoctorsController::class, 'store'])->name('store');
     });
+
+    Route::middleware('role:patient')->prefix('patients')->name('patients.')->group(function () {
+        Route::get('/dashboard', [PatientsController::class, 'dashboard'])->name('dashboard');
+    });
+
+    Route::middleware('role:doctor')->prefix('medecins')->name('medecins.')->group(function () {
+        Route::get('/dashboard', [DoctorsController::class, 'dashboard'])->name('dashboard');
+    });
+
+    
 });
 
 
