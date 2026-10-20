@@ -39,7 +39,6 @@
 						<th>Titre du rapport</th>
 						<th>patient</th>
 						<th>Date d’ajout</th>
-						<th>Statut</th>
 						<th>Actions</th>
 					</tr>
 				</thead>
@@ -54,14 +53,16 @@
 							<td></td>
                             <td></td>    
 							<td></td>
-							<td>
-								<span class="badge badge-blue">
-									 rapports
-								</span>
-							</td>
+
 							<td>
 								<div class="table-actions" role="group" aria-label="Actions du dossier médecin" style="display:flex; gap:8px; align-items:center;">
-									<button class="icon-btn" type="button" data-demo-action="Téléchargement du dossier médecin." title="Télécharger le dossier" aria-label="Télécharger le dossier médecin" style="background:#eff6ff !important; color:#2563eb !important; border:1px solid #bfdbfe !important;">↓</button>
+									<button class="icon-btn" type="button" data-demo-action="Téléchargement du rapport." title="Télécharger le rapport" aria-label="Télécharger le rapport" style="background:#f0fdf4 !important; color:#16a34a !important; border:1px solid #bbf7d0 !important;">
+										<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+											<path d="M12 3v12"/>
+											<path d="m7 10 5 5 5-5"/>
+											<path d="M5 21h14"/>
+										</svg>
+									</button>
 								</div>
 							</td>
 						</tr>

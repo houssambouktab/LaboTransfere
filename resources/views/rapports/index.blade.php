@@ -69,18 +69,32 @@
 							<td>{{ $rapport->patient->user->name }}</td>
 							<td>{{ $rapport->doctor->user->name }}</td>
 							<td>{{ $rapport->created_at->format('d M. Y, h:i') }}</td>
-							<td><span class="badge" style="background-color: #fef3c7; color: #92400e;">{{ $rapport->status }}</span></td>
+							<td><span class="badge" style="background-color: {{ strtolower($rapport->status) === 'failure' ? '#fee2e2' : (strtolower($rapport->status) === 'sent' ? '#dcfce7' : '#fef3c7') }}; color: {{ strtolower($rapport->status) === 'failure' ? '#b91c1c' : (strtolower($rapport->status) === 'sent' ? '#15803d' : '#92400e') }};">{{ $rapport->status }}</span></td>
 							<td>
 								<div class="table-actions" role="group" aria-label="Actions pour le rapport {{ $rapport->id }}" style="display:flex; gap:8px; align-items:center;">
-								<a class="icon-btn" href="{{ route('rapports.show', $rapport->id) }}" title="Voir les détails"  style="background:#eff6ff !important; color:#2563eb !important; border:1px solid #bfdbfe !important;">↗</a>
+								    <a
+                                        class="icon-btn"
+                                        href="{{ route('rapports.show', $rapport->id) }}"
+                                        title="Voir les détails"
+                                        aria-label="Voir les détails du rapport {{ $rapport->id }}"
+                                        style="background:#eff6ff !important; color:#2563eb !important; border:1px solid #bfdbfe !important;"
+                                    >
+                                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                                            <path d="M2 12s3.5-6 10-6 10 6 10 6-3.5 6-10 6-10-6-10-6Z"/>
+                                            <circle cx="12" cy="12" r="2.5"/>
+                                        </svg>
+                                    </a>
 								<form action="{{ route('rapports.download', $rapport->id) }}" method="GET" style="display:inline-flex;">
 									<button class="icon-btn action-download" type="submit" title="Télécharger" aria-label="Télécharger le rapport {{ $rapport->id }}" style="background:#f0fdf4 !important; color:#16a34a !important; border:1px solid #bbf7d0 !important;">
 									<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3v12"/><path d="m7 10 5 5 5-5"/><path d="M5 21h14"/></svg>
 									</button>
 								</form>
-								<button class="icon-btn action-send" data-demo-action="Envoi simulé au patient et au médecin." title="Envoyer le rapport" aria-label="Envoyer le rapport {{ $rapport->id }}" style="background:#f5f3ff !important; color:#7c3aed !important; border:1px solid #ddd6fe !important;">
+								<form action="{{ route('rapports.sent', $rapport->id) }}" method="get" style="display:inline-flex;">
+									@csrf
+									<button class="icon-btn action-send" type="submit" title="Envoyer le rapport" aria-label="Envoyer le rapport {{ $rapport->id }}" style="background:#f5f3ff !important; color:#7c3aed !important; border:1px solid #ddd6fe !important;">
 									<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m22 2-7 20-4-9-9-4Z"/><path d="M22 2 11 13"/></svg>
-								</button>
+									</button>
+								</form>
 								<form action="{{ route('rapports.delete', $rapport->id) }}" method="POST" style="display:inline-flex;">
 										@csrf
 										@method('DELETE')

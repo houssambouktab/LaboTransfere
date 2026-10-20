@@ -49,19 +49,60 @@
                             <td>{{ $rapport->doctor->user->name }}</td>
                             <td>{{ $rapport->created_at->format('d M. Y, h:i') }}</td>
                             <td>
-                                <span class="badge badge-{{ $rapport->status }}">{{ $rapport->status }}</span>
+                                @php
+                                    $status = strtolower($rapport->status);
+                                    $statusClass = match ($status) {
+                                        'sent' => 'badge-green',
+                                        'failure' => 'badge-red',
+                                        default => 'badge-amber',
+                                    };
+                                @endphp
+                                <span class="badge {{ $statusClass }}">{{ $rapport->status }}</span>
                             </td>
                             <td>
-                                <a
-                                    class="icon-btn"
-                                    href="{{ route('rapports.show', ['rapport' => $rapport->id]) }}"
-                                    title="Voir les détails"
-                                >↗</a>
-                                <button
-                                    class="icon-btn"
-                                    data-demo-action="Envoi simulé du rapport."
-                                    title="Envoyer"
-                                >➤</button>
+                                <div class="table-actions" role="group" aria-label="Actions pour le rapport {{ $rapport->id }}" style="display:flex; gap:8px; align-items:center;">
+                                    <a
+                                        class="icon-btn"
+                                        href="{{ route('rapports.show', $rapport->id) }}"
+                                        title="Voir les détails"
+                                        aria-label="Voir les détails du rapport {{ $rapport->id }}"
+                                        style="background:#eff6ff !important; color:#2563eb !important; border:1px solid #bfdbfe !important;"
+                                    >
+                                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                                            <path d="M2 12s3.5-6 10-6 10 6 10 6-3.5 6-10 6-10-6-10-6Z"/>
+                                            <circle cx="12" cy="12" r="2.5"/>
+                                        </svg>
+                                    </a>
+                                    <form action="{{ route('rapports.download', $rapport->id) }}" method="GET" style="display:inline-flex;">
+                                        <button
+                                            class="icon-btn"
+                                            type="submit"
+                                            title="Télécharger"
+                                            aria-label="Télécharger le rapport {{ $rapport->id }}"
+                                            style="background:#f0fdf4 !important; color:#16a34a !important; border:1px solid #bbf7d0 !important;"
+                                        >
+                                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                                                <path d="M12 3v12"/>
+                                                <path d="m7 10 5 5 5-5"/>
+                                                <path d="M5 21h14"/>
+                                            </svg>
+                                        </button>
+                                    </form>
+                                    <form action="{{ route('rapports.sent', $rapport->id) }}" method="GET" style="display:inline-flex;">
+                                        <button
+                                            class="icon-btn"
+                                            type="submit"
+                                            title="Envoyer"
+                                            aria-label="Envoyer le rapport {{ $rapport->id }}"
+                                            style="background:#f5f3ff !important; color:#7c3aed !important; border:1px solid #ddd6fe !important;"
+                                        >
+                                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                                                <path d="m22 2-7 20-4-9-9-4Z"/>
+                                                <path d="M22 2 11 13"/>
+                                            </svg>
+                                        </button>
+                                    </form>
+                                </div>
                             </td>
                         </tr>
                     @endforeach

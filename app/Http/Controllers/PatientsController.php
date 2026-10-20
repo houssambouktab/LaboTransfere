@@ -89,10 +89,21 @@ class PatientsController extends Controller
     {
         $user = Auth::user();
 
+        $rapports = Rapports::with(['patient.user', 'doctor.user'])
+            ->whereHas('patient', function ($query): void {
+                $query->where('user_id', Auth::id());
+            })
+            ->where('status', 'sent')
+            ->orderBy('created_at', 'desc')
+            ->get();
+
         return view('patients.dashboard', [
             'name' => $user->name,
             'Role' => $user->role,
+            'rapports' => $rapports,
         ]);
+
+ 
     }
 
     public function create()

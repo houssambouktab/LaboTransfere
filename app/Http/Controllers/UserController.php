@@ -27,6 +27,7 @@ class UserController extends Controller
         $rapportsCount = Rapports::count();
         $raapports = Rapports::with(['patient.user', 'doctor.user'])->orderBy('created_at', 'desc')->take(5)->get();
         $rapportsPendingCount = Rapports::where('status', 'pending')->count();
+         
 
         return view('welcome', [
             'name' => $user->name,

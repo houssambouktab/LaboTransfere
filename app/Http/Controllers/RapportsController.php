@@ -3,11 +3,13 @@
 namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
+use App\Mail\SendMail;
 use App\Models\Doctors;
 use App\Models\Patient;
 use App\Models\Rapports;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Mail;
 
 class RapportsController extends Controller
 {
@@ -150,5 +152,32 @@ class RapportsController extends Controller
         return response()->download(storage_path('app/public/' . $rapport->file_path));
     }
 
+    public function sent(int $id)
+    {
+        $rapport = Rapports::findOrFail($id);
+        $patient = $rapport->patient->user;
+        $doctor = $rapport->doctor->user;
+
+        try {
+            $mail = new SendMail();
+            $mail->attach(storage_path('app/public/' . $rapport->file_path), [
+                'as' => basename($rapport->file_path),
+                'mime' => 'application/pdf',
+            ]);
+
+            Mail::to([$patient->email, $doctor->email])->send($mail);
+
+            $rapport->status = 'sent';
+            $rapport->save();
+        } catch (\Throwable $exception) {
+            $rapport->status = 'failure';
+            $rapport->save();
+
+            return redirect()->route('rapports.index')->with('error', 'Échec de l’envoi du rapport médical.');
+        }
+
+        return redirect()->route('rapports.index')->with('success', 'Rapport médical envoyé par e-mail avec succès.');
+
+    }
     
 }

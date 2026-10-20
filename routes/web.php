@@ -30,9 +30,11 @@ Route::middleware('auth')->group(function () {
         Route::delete('/{id}', [RapportsController::class, 'delete'])->name('delete');
         Route::get('/{id}/edit', [RapportsController::class, 'edit'])->whereNumber('id')->name('edit');
         Route::put('/{id}', [RapportsController::class, 'update'])->whereNumber('id')->name('update');
-        Route::get('/{id}/download', [RapportsController::class, 'download'])->whereNumber('id')->name('download');
-        Route::get('/{id}/send', [RapportsController::class, 'send'])->whereNumber('id')->name('send');
+        Route::get('/{id}/download', [RapportsController::class, 'download'])->whereNumber('id')->name('download');        
         Route::get('/{id}/view', [RapportsController::class, 'show'])->whereNumber('id')->name('show');
+        route::get('/{id}/sent', [RapportsController::class, 'sent'])->whereNumber('id')->name('sent');
+        //send docs with smtp 
+        //Route::post('/{id}/send', [RapportsController::class, 'sendEmail'])->whereNumber('id')->name('sendEmail');
     });
 
     Route::middleware('role:admin')->prefix('patients')->name('patients.')->group(function () {
@@ -55,6 +57,7 @@ Route::middleware('auth')->group(function () {
 
     Route::middleware('role:patient')->prefix('patients')->name('patients.')->group(function () {
         Route::get('/dashboard', [PatientsController::class, 'dashboard'])->name('dashboard');
+        Route::get('/{id}/download', [RapportsController::class, 'download'])->whereNumber('id')->name('download');
     });
 
     Route::middleware('role:doctor')->prefix('medecins')->name('medecins.')->group(function () {
