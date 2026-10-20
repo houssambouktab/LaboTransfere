@@ -2,7 +2,11 @@
 
 namespace App\Models;
 
+use App\Models\Rapports;
+use App\Models\User;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Patient extends Model
 {
@@ -13,8 +17,13 @@ class Patient extends Model
         'address',
     ];
 
-    public function user()
+    public function user(): BelongsTo
     {
         return $this->belongsTo(User::class);
+    }
+
+    public function rapports(): HasMany
+    {
+        return $this->hasMany(Rapports::class);
     }
 }

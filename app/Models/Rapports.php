@@ -2,6 +2,8 @@
 
 namespace App\Models;
 
+use App\Models\Doctors;
+use App\Models\Patient;
 use Illuminate\Database\Eloquent\Model;
 
 class Rapports extends Model

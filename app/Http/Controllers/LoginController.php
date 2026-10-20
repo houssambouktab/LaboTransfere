@@ -26,11 +26,11 @@ class LoginController extends Controller
             $user = Auth::user();
 
             if ($user->Role === 'admin') {
-                return redirect()->route('users.index');
+                return redirect()->route('index');
             } elseif ($user->Role === 'doctor') {
-                return redirect()->route('medecins.doctors');
+                return redirect()->route('medecins.dashboard');
             } elseif ($user->Role === 'patient') {
-                return redirect()->route('patients.patients');
+                return redirect()->route('patients.dashboard');
             }
 
             //dd($request->user());

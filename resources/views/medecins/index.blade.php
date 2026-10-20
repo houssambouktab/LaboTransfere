@@ -60,22 +60,20 @@
 							<td>{{ $doctor->phone }}</td>
 							<td>
 								<span class="badge badge-blue">
-									<!-- {{ $doctor->reports_count }} rapports -->
+									 {{ $doctor->rapports_count }} 
 								</span>
 							</td>
 							<td>
-								<button
-									class="icon-btn"
-									data-demo-action="Consultation de la fiche médecin."
-								>↗</button>
-								<button
-									class="icon-btn"
-									data-demo-action="Modification simulée."
-								>✎</button>
-								<button
-									class="icon-btn"
-									data-demo-action="Suppression simulée — aucune donnée n’a été modifiée."
-								>×</button>
+								<div class="table-actions" role="group" aria-label="Actions pour {{ $doctor->user->name }}" style="display:flex; gap:8px; align-items:center;">
+									<form action="{{ route('medecins.edit', $doctor) }}" method="GET">
+										<button class="icon-btn" type="submit" title="Modifier le médecin" aria-label="Modifier {{ $doctor->user->name }}" style="background:#fefce8 !important; color:#ca8a04 !important; border:1px solid #fde68a !important;">✎</button>
+									</form>
+									<form action="{{ route('medecins.delete', $doctor) }}" method="POST">
+										@csrf
+										@method('DELETE')
+										<button class="icon-btn" type="submit" title="Supprimer le médecin" aria-label="Supprimer {{ $doctor->user->name }}" style="background:#fef2f2 !important; color:#dc2626 !important; border:1px solid #fecaca !important;">×</button>
+									</form>
+								</div>
 							</td>
 						</tr>
 					@endforeach

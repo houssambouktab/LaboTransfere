@@ -15,6 +15,10 @@
 			<div class="alert alert-success" role="alert">
 				{{ session('success') }}
 			</div>
+		@elseif (session('error'))
+			<div class="alert alert-danger" role="alert">
+				{{ session('error') }}
+			</div>
 		@endif
 	</div>
 	<a class="button button-primary" href="{{ route('patients.create') }}">＋ Ajouter un patient</a>
@@ -46,7 +50,7 @@
 			</thead>
 			<tbody>
 				@foreach ($patients as $patient)
-					<tr data-search="">
+					<tr data-search="{{ $patient->user->name }} {{ $patient->user->email }} {{ $patient->phone }}">
 						<td>
 							<div class="person-cell">
 								<span class="mini-avatar">{{ substr($patient->user->name, 0, 2) }}</span>
@@ -57,11 +61,16 @@
 						<td>{{ $patient->phone }}</td>
 						<td>{{ $patient->date_of_birth }}</td>
                         
-						<td><span class="badge badge-green"> $patient->rapports->count() </span></td>
+						<td><span class="badge badge-green">{{ $patient->rapports_count }}</span></td>
 						<td>
-							<button class="icon-btn" data-demo-action="Consultation de la fiche patient.">↗</button>
-							<button class="icon-btn" data-demo-action="Modification simulée.">✎</button>
-							<button class="icon-btn" data-demo-action="Suppression simulée — aucune donnée n’a été modifiée.">×</button>
+							<div class="table-actions" role="group" aria-label="Actions pour {{ $patient->user->name }}" style="display:flex; gap:8px; align-items:center;">
+								<a class="icon-btn" href="{{ route('patients.edit', $patient->id) }}" title="Modifier le patient" aria-label="Modifier {{ $patient->user->name }}" style="background:#fefce8 !important; color:#ca8a04 !important; border:1px solid #fde68a !important;">✎</a>
+									<form action="{{ route('patients.delete', $patient->id) }}" method="POST" style="display:inline-flex;">
+										@csrf
+										@method('GET')
+										<button class="icon-btn icon-btn-danger" type="submit" onclick="return confirm('Voulez-vous supprimer ce patient ?')" title="Supprimer le patient" aria-label="Supprimer {{ $patient->user->name }}" style="display:inline-flex; align-items:center; justify-content:center; background:#fef2f2 !important; color:#dc2626 !important; border:1px solid #fecaca !important;">×</button>
+									</form>
+							</div>
 						</td>
 					</tr>
 				@endforeach

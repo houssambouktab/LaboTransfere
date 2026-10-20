@@ -14,7 +14,8 @@ const filterTable = (input) => {
     if (!table) return;
     const value = input.value.trim().toLowerCase();
     table.querySelectorAll('tbody tr[data-search]').forEach((row) => {
-        row.hidden = value !== '' && !row.dataset.search.toLowerCase().includes(value);
+        const searchableText = (row.dataset.search || row.textContent).toLowerCase();
+        row.hidden = value !== '' && !searchableText.includes(value);
     });
 };
 

@@ -12,12 +12,30 @@ use Illuminate\Support\Facades\Hash;
 
 class DoctorsController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
         $user = Auth::user();
-        
-        $doctors = Doctors::with('user')->get();
-        
+        $search = $request->input('search');
+
+        $doctors = Doctors::with('user')
+            ->select('doctors.*')
+            ->selectSub(function ($query) {
+                $query->from('rapports')
+                    ->selectRaw('COUNT(*)')
+                    ->whereColumn('rapports.doctor_id', 'doctors.id');
+            }, 'rapports_count')
+            ->when($search, function ($query, $search): void {
+                $query->where(function ($doctorQuery) use ($search): void {
+                    $doctorQuery->whereHas('user', function ($userQuery) use ($search): void {
+                        $userQuery->where('name', 'like', "%{$search}%")
+                            ->orWhere('email', 'like', "%{$search}%");
+                    })
+                    ->orWhere('phone', 'like', "%{$search}%");
+                });
+            })->get();
+
+
+
 
         // $doctorsrapports = Doctors::with('rapports')->get();
         return view('medecins.index', [
@@ -63,7 +81,7 @@ class DoctorsController extends Controller
                 'name' => $validated['name'],
                 'email' => $validated['email'],
                 'password' => Hash::make($validated['password']),
-                'role' => 'doctor',
+                'Role' => 'doctor',
             ]);
 
             Doctors::create([
@@ -75,5 +93,68 @@ class DoctorsController extends Controller
         });
 
         return redirect()->route('medecins.doctors')->with('success', 'Médecin ajouté avec succès.');
+    }
+
+
+
+    public function delete(int $id)
+    {
+        $doctor = Doctors::findOrFail($id);
+        $user = $doctor->user;
+
+        db::transaction(function () use ($doctor, $user): void {
+            $doctor->delete();
+            $user->delete();
+        });
+
+        return redirect()->route('medecins.doctors')->with('success', 'Médecin supprimé avec succès.');
+
+
+    }
+
+    public function edit(int $id)
+    {
+
+        $doctor = Doctors::findOrFail($id);
+        $user = $doctor->user;
+
+        return view('medecins.edit', [
+            'name' => $user->name,
+            'Role' => $user->role,
+            'doctor' => $doctor,
+            'email' => $user->email,
+            'password' => $user->password,
+            'specialty' => $doctor->specialty,
+            'phone' => $doctor->phone,
+        ]);
+    }
+
+    public function update(int $id, Request $request)
+    {
+        $doctor = Doctors::findOrFail($id);
+        $user = $doctor->user;
+
+        $validated = $request->validate([
+            'name' => ['required', 'string', 'max:255'],
+            'email' => ['required', 'email', 'max:255', 'unique:users,email,' . $user->id],
+            'password' => ['nullable', 'string', 'min:3'],
+            'specialty' => ['required', 'string', 'max:255'],
+            'phone' => ['required', 'string', 'max:255'],
+        ]);
+
+        DB::transaction(function () use ($doctor, $user, $validated): void {
+            $user->update([
+                'name' => $validated['name'],
+                'email' => $validated['email'],
+                'password' => !empty($validated['password']) ? Hash::make($validated['password']) : $user->password,
+            ]);
+
+            $doctor->update([
+                'specialty' => $validated['specialty'],
+                'phone' => $validated['phone'],
+            ]);
+        });
+
+        return redirect()->route('medecins.doctors')->with('success', 'Médecin mis à jour avec succès.');
     }
 }

@@ -6,11 +6,11 @@
 @section('content')
 	<div class="content-header">
 		<div>
-			<p class="eyebrow">RPT-2026-1042</p>
-			<h1>Hématologie complète</h1>
+			<p class="eyebrow">{{ $rapport->id }}</p>
+			<h1>{{$rapport->title}}</h1>
 			<p class="content-subtitle">
-				Ajouté le 15 octobre 2026 à 10:42
-				<span class="badge badge-green" style="margin-left: 8px">Disponible</span>
+				Ajouté le {{ $rapport->created_at->format('d M. Y, h:i') }}
+				<span class="badge badge-green" style="margin-left: 8px">{{ $rapport->status }}</span>
 			</p>
 		</div>
 
@@ -39,38 +39,28 @@
 
 		<div style="align-content: start; display: grid; gap: 24px">
 			<section class="panel" style="padding: 22px">
-				<h2 class="panel-title" style="margin-bottom: 18px">Patient</h2>
+				<h2 class="panel-title" style="margin-bottom: 18px">{{ $rapport->patient->user->role }}</h2>
 				<div class="person-cell">
-					<span class="avatar">MD</span>
+					<span class="avatar">{{ $rapport->patient->user->name[0] }}</span>
 					<span>
-						<strong>Marie Dupont</strong>
-						<small>marie.dupont@email.fr</small>
+						<strong>{{ $rapport->patient->user->name }}</strong>
+						<small>{{ $rapport->patient->user->email }}</small>
 					</span>
 				</div>
 			</section>
 
 			<section class="panel" style="padding: 22px">
-				<h2 class="panel-title" style="margin-bottom: 18px">Médecin prescripteur</h2>
+				<h2 class="panel-title" style="margin-bottom: 18px">{{ $rapport->doctor->user->role }}</h2>
 				<div class="person-cell">
-					<span class="avatar">CM</span>
+					<span class="avatar">{{ $rapport->doctor->user->name[0] }}</span>
 					<span>
-						<strong>Dr. Claire Martin</strong>
-						<small>Hématologie</small>
+						<strong>{{ $rapport->doctor->user->name }}</strong>
+						<small>{{ $rapport->doctor->user->email }}</small>
 					</span>
 				</div>
 			</section>
 
-			<section class="panel" style="padding: 22px">
-				<h2 class="panel-title" style="margin-bottom: 13px">Informations</h2>
-				<p class="form-help">
-					Téléversé par
-					<strong style="color: var(--ink)">Houssam Sam</strong>
-				</p>
-				<p class="form-help" style="margin-top: 8px">
-					Taille du fichier
-					<strong style="color: var(--ink)">2,4 Mo</strong>
-				</p>
-			</section>
+
 		</div>
 	</div>
 @endsection
