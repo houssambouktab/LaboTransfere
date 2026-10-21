@@ -53,6 +53,7 @@ Route::middleware('auth')->group(function () {
     Route::middleware('role:patient')->prefix('patients')->name('patients.')->group(function () {
         Route::get('/dashboard', [PatientsController::class, 'dashboard'])->name('dashboard');
         Route::get('/{id}/download', [RapportsController::class, 'download'])->whereNumber('id')->name('download');
+
     });
 
     Route::middleware('role:doctor')->prefix('medecins')->name('medecins.')->group(function () {

@@ -20,7 +20,7 @@
                     <span class="brand__mark" aria-hidden="true">
                         <svg viewBox="0 0 32 32" fill="none"><path d="M16 7v18M7 16h18" stroke="currentColor" stroke-width="3" stroke-linecap="round"/><path d="M25.5 11.5a11 11 0 1 1-5-4.5" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" opacity=".55"/></svg>
                     </span>
-                    <span><strong>LabCare</strong><small>PLATEFORME DE GESTION MÉDICALE</small></span>
+                    <span><strong>LaboTransfere</strong><small>PLATEFORME DE GESTION MÉDICALE</small></span>
                 </a>
 
                 <div class="brand-copy">
