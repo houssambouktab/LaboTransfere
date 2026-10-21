@@ -47,11 +47,11 @@
 						<tr>
 							<td>
 								<div class="person-cell">
-									<span class="mini-avatar"><strong>{{ $rapport->id ?? '—' }}</strong></span>
+									<span class="mini-avatar"><strong>{{ $rapport->id}}</strong></span>
 								</div>
 							</td>
 							<td>{{ $rapport->title }}</td>
-							<td>{{ $rapport->doctor?->user?->name ?? '—' }}</td>
+							<td>{{ $rapport->doctor->user->name }}</td>
 							<td>{{ $rapport->created_at }}</td>
 
 							<td>

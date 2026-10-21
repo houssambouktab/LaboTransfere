@@ -27,7 +27,7 @@ class UserController extends Controller
         $rapportsCount = Rapports::count();
         $raapports = Rapports::with(['patient.user', 'doctor.user'])->orderBy('created_at', 'desc')->take(5)->get();
         $rapportsPendingCount = Rapports::where('status', 'pending')->count();
-         
+
 
         return view('welcome', [
             'name' => $user->name,
@@ -38,7 +38,20 @@ class UserController extends Controller
             'rapportspendingcount' => $rapportsPendingCount,
             'rapports' => $raapports,
         ]);
-    } 
+    }
+
+
+    public function admin(){
+        $user = Auth::user();
+
+
+        return view('admin', [
+            'name' => $user->name,
+
+
+        ]);
+    }
+
 
     // public function listusers(){
 
@@ -60,5 +73,5 @@ class UserController extends Controller
     //     return redirect()->back()->with('success', 'User added successfully.');
     // }
 
-    
+
 }

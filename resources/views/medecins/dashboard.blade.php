@@ -43,29 +43,35 @@
 					</tr>
 				</thead>
 				<tbody>
+
+                @forelse($rapports as $rapport)
 						<tr data-search="">
 							<td>
 								<div class="person-cell">
-									<span class="mini-avatar"></span>
-									<strong></strong>
-								</div>
-							</td>
-							<td></td>
-                            <td></td>    
-							<td></td>
+									<span class="mini-avatar"><strong>{{$rapport->id}}</strong></span>
 
-							<td>
-								<div class="table-actions" role="group" aria-label="Actions du dossier médecin" style="display:flex; gap:8px; align-items:center;">
-									<button class="icon-btn" type="button" data-demo-action="Téléchargement du rapport." title="Télécharger le rapport" aria-label="Télécharger le rapport" style="background:#f0fdf4 !important; color:#16a34a !important; border:1px solid #bbf7d0 !important;">
-										<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-											<path d="M12 3v12"/>
-											<path d="m7 10 5 5 5-5"/>
-											<path d="M5 21h14"/>
-										</svg>
-									</button>
 								</div>
 							</td>
+                            <td>{{$rapport->title}}</td>
+							<td>{{$rapport->patient->user->name}}</td>
+							<td>{{$rapport->created_at}}</td>
+
+                            <td>
+                                <div class="table-actions" role="group" aria-label="Actions du rapport patient" style="display:flex; gap:8px; align-items:center;">
+                                    <form action="{{ route('medecins.download', $rapport->id) }}" method="GET" style="display:inline-flex;">
+                                        <button class="icon-btn action-download" type="submit" title="Télécharger" aria-label="Télécharger le rapport {{ $rapport->id }}" style="background:#f0fdf4 !important; color:#16a34a !important; border:1px solid #bbf7d0 !important;">
+                                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3v12"/><path d="m7 10 5 5 5-5"/><path d="M5 21h14"/></svg>
+                                        </button>
+                                    </form>
+                                </div>
+                            </td>
 						</tr>
+                    @empty
+                    <tr>
+                        <td colspan="5">Aucun rapport trouvé.</td>
+                    </tr>
+
+                @endforelse
 				</tbody>
 			</table>
 		</div>

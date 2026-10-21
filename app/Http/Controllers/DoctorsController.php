@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
 use App\Models\Doctors;
+use App\Models\Rapports;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -50,10 +51,21 @@ class DoctorsController extends Controller
     {
         $user = Auth::user();
 
+
+        $rapports = Rapports::with(['patient.user', 'doctor.user'])
+            ->whereHas('doctor', function ($query): void {
+                $query->where('user_id', Auth::id());
+            })
+            ->where('status', 'sent')
+            ->orderBy('created_at', 'desc')
+            ->get();
+
         return view('medecins.dashboard', [
             'name' => $user->name,
             'Role' => $user->role,
+            'rapports' => $rapports,
         ]);
+
     }
 
     public function create()
@@ -88,11 +100,11 @@ class DoctorsController extends Controller
                 'user_id' => $user->id,
                 'specialty' => $validated['specialty'],
                 'phone' => $validated['phone'],
-                
+
             ]);
         });
 
-        return redirect()->route('medecins.doctors')->with('success', 'Médecin ajouté avec succès.');
+        return redirect()->route('medecins.index')->with('success', 'Médecin ajouté avec succès.');
     }
 
 
@@ -107,7 +119,7 @@ class DoctorsController extends Controller
             $user->delete();
         });
 
-        return redirect()->route('medecins.doctors')->with('success', 'Médecin supprimé avec succès.');
+        return redirect()->route('medecins.index')->with('success', 'Médecin supprimé avec succès.');
 
 
     }
@@ -155,6 +167,6 @@ class DoctorsController extends Controller
             ]);
         });
 
-        return redirect()->route('medecins.doctors')->with('success', 'Médecin mis à jour avec succès.');
+        return redirect()->route('medecins.index')->with('success', 'Médecin mis à jour avec succès.');
     }
 }
