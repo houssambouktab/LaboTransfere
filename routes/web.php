@@ -12,6 +12,10 @@ Route::middleware('guest')->group(function () {
     Route::post('/login', [LoginController::class, 'login'])->name('login');
 });
 
+
+
+
+
 Route::middleware('auth')->group(function () {
 
     Route::post('/logout', [LoginController::class, 'logout'])->name('logout');
@@ -21,6 +25,8 @@ Route::middleware('auth')->group(function () {
    Route::middleware('role:admin')->group(function () {
         Route::get('/', [UserController::class, 'index'])->name('index');
         Route::get('/admin', [UserController::class, 'admin'])->name('admin');
+
+        //Route::get('/search', [UserController::class, 'search'])->name('search');
 
     });
 
@@ -68,6 +74,7 @@ Route::middleware('auth')->group(function () {
         Route::get('/{id}/edit', [DoctorsController::class, 'edit'])->whereNumber('id')->name('edit');
         Route::get('/{id}', [DoctorsController::class, 'delete'])->name('delete');
         Route::put('/{id}', [DoctorsController::class, 'update'])->whereNumber('id')->name('update');
+
     });
 
 

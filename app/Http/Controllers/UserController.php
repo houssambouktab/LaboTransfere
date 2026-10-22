@@ -52,6 +52,20 @@ class UserController extends Controller
         ]);
     }
 
+//    public function search(Request $request){
+//
+//        $query = $_GET['search'];
+//        $validated = $request->validate([
+//            'search' => 'required',
+//        ]);
+//
+//        User::where('id', Auth::user()->getAuthIdentifier())->update([
+//                'name' => $query ,
+//        ]);
+//
+//        echo "<p> you searched :" .e($query)."</p>";
+//    }
+
 
     // public function listusers(){
 

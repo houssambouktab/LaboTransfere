@@ -1,5 +1,5 @@
 <aside class="sidebar" data-sidebar>
-    <a href="/" class="brand"><span class="brand-mark"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 5v14M5 12h14"/></svg></span><span><strong>Labo Santé</strong><small>Gestion médicale</small></span></a>
+    <a href="/" class="brand"><span class="brand-mark"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 5v14M5 12h14"/></svg></span><span><strong>LaboTransfere</strong><small>Gestion médicale</small></span></a>
     <p class="nav-label">Menu principal</p>
     <nav>
         @if(auth()->user()->Role === 'admin')

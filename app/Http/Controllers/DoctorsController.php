@@ -10,6 +10,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
+use function Laravel\Prompts\select;
 
 class DoctorsController extends Controller
 {
@@ -31,11 +32,9 @@ class DoctorsController extends Controller
                         $userQuery->where('name', 'like', "%{$search}%")
                             ->orWhere('email', 'like', "%{$search}%");
                     })
-                    ->orWhere('phone', 'like', "%{$search}%");
+                        ->orWhere('phone', 'like', "%{$search}%");
                 });
             })->get();
-
-
 
 
         // $doctorsrapports = Doctors::with('rapports')->get();
@@ -89,7 +88,7 @@ class DoctorsController extends Controller
         ]);
 
         DB::transaction(function () use ($validated): void {
-           $user = User::create([
+            $user = User::create([
                 'name' => $validated['name'],
                 'email' => $validated['email'],
                 'password' => Hash::make($validated['password']),
@@ -106,7 +105,6 @@ class DoctorsController extends Controller
 
         return redirect()->route('medecins.index')->with('success', 'Médecin ajouté avec succès.');
     }
-
 
 
     public function delete(int $id)
@@ -169,4 +167,8 @@ class DoctorsController extends Controller
 
         return redirect()->route('medecins.index')->with('success', 'Médecin mis à jour avec succès.');
     }
+
 }
+
+
+

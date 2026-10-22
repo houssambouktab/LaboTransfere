@@ -67,7 +67,6 @@
                         <p class="field-error" data-email-error role="alert"></p>
                     </div>
                     <div class="field-group">
-                        <div class="field-label-row"><label for="password">Mot de passe</label><a href="#mot-de-passe-oublie" class="forgot-link">Mot de passe oublié ?</a></div>
                         <div class="input-wrap">
                             <svg class="input-icon" viewBox="0 0 24 24" fill="none"><rect x="5" y="10" width="14" height="11" rx="2" stroke="currentColor" stroke-width="1.7"/><path d="M8 10V7a4 4 0 0 1 8 0v3" stroke="currentColor" stroke-width="1.7"/></svg>
                             <input id="password" name="password" type="password" autocomplete="current-password" placeholder="Saisissez votre mot de passe" required>
@@ -88,8 +87,8 @@
                     @endif
                 </form>
                 <div class="secure-note"><svg viewBox="0 0 24 24" fill="none"><rect x="5" y="10" width="14" height="11" rx="2" stroke="currentColor" stroke-width="1.6"/><path d="M8 10V7a4 4 0 0 1 8 0v3" stroke="currentColor" stroke-width="1.6"/></svg><span>Connexion sécurisée</span></div>
-                <footer class="form-footer"><span>© {{ date('Y') }} LabCare — Tous droits réservés</span><a href="#confidentialite">Confidentialité</a></footer>
-            </div>
+            <!--  <footer class="form-footer"><span>© {{ date('Y') }} LabCare — Tous droits réservés</span><a href="#confidentialite">Confidentialité</a></footer>
+           --> </div>
         </section>
     </main>
     <script src="{{ asset('js/login.js') }}" defer></script>

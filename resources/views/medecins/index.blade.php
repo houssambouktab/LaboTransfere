@@ -19,6 +19,8 @@
 		</a>
 	</div>
 
+
+
 	<div class="filter-bar">
 		<label class="search-box">
 			<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#94a3b8" stroke-width="2">
@@ -60,7 +62,7 @@
 							<td>{{ $doctor->phone }}</td>
 							<td>
 								<span class="badge badge-blue">
-									 {{ $doctor->rapports_count }} 
+									 {{ $doctor->rapports_count }}
 								</span>
 							</td>
 							<td>
